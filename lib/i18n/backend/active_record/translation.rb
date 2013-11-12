@@ -54,6 +54,7 @@ module I18n
         serialize :value
         serialize :interpolations, Array
 
+        validates :key, :uniqueness => {:scope => :locale}
         class << self
           def locale(locale)
             where(:locale => locale.to_s)
@@ -102,6 +103,10 @@ module I18n
           end
 
           write_attribute(:value, value)
+        end
+
+        def key=(value)
+          write_attribute(:key, value.try(:strip))
         end
       end
     end
